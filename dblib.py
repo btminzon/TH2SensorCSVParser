@@ -5,15 +5,12 @@ import pymssql
 #
 # Tables:
 #
-#   Table: Temperature
+#   Table: dbo.Data
 #   Columns:
-#    *  dbo.Date
-#       dbo.Temperature
+#    *  Date
+#       Temperature
+#       Humidity
 #
-#   Table: Humidity
-#   Columns:
-#    *  dbo.Date
-#    *  dbo.Humidity
 #########################
 
 class Dblib:
