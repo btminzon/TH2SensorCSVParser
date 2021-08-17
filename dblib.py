@@ -77,14 +77,20 @@ class Dblib:
         else:
             print("setHumidity: Not connected to DB")
 
+    def setData(self, date, temperature, humidity):
+        if self.connected:
+            self.cur.execute("INSERT INTO dbo.Data (Date, Temperature, Humidity) VALUES (%s, %s, %s)",
+                             (str(date), str(temperature), str(humidity)))
+            self.con.commit()
+        else:
+            print("setData: Not connected to DB")
+
 
 def saveData(date, temperature, humidity):
     lib = Dblib()
     dat = lib.getDate(date)
     if dat is None:
-        lib.setDate(date)
-        lib.setHumidity(date, humidity)
-        lib.setTemperature(date, temperature)
+        lib.setData(date, temperature, humidity)
         return True
     else:
         ret = 0
