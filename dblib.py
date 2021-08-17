@@ -30,8 +30,8 @@ class Dblib:
         if self.connected:
             self.cur.execute("SELECT Date FROM dbo.Data WHERE Date = %s", str(date))
             dat = self.cur.fetchone()
-            if dat is not None:
-                print("Date fetched: %s", dat)
+            # if dat is not None:
+            # print("Date already in DB. Fetched: %s", dat)
             return dat
         else:
             print("getDate: Not connected to DB")
@@ -47,8 +47,8 @@ class Dblib:
         if self.connected:
             self.cur.execute("SELECT Temperature FROM dbo.Data WHERE Date = %s", str(date))
             temp = self.cur.fetchone()[0]
-            if temp is not None:
-                print("Temperature fetched: " + str(temp))
+            # if temp is not None:
+            # print("Temperature already in DB. Fetched: " + str(temp))
             return temp
         else:
             print("getTemeprature: Not connected to DB")
@@ -64,8 +64,8 @@ class Dblib:
         if self.connected:
             self.cur.execute("SELECT Humidity FROM dbo.Data WHERE Date = %s", str(date))
             humi = self.cur.fetchone()[0]
-            if humi is not None:
-                print("Humidity fetched: " + str(humi))
+            # if humi is not None:
+            # print("Humidity already in DB. Fetched: " + str(humi))
             return humi
         else:
             print("getHumidity: Not connected to DB")
