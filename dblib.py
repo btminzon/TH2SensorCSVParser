@@ -65,8 +65,6 @@ class Dblib:
         if self.connected:
             self.cur.execute("SELECT Humidity FROM dbo.Data WHERE Date = %s", str(date))
             humi = self.cur.fetchone()[0]
-            # if humi is not None:
-            # print("Humidity already in DB. Fetched: " + str(humi))
             return humi
         else:
             print("getHumidity: Not connected to DB")
@@ -85,6 +83,20 @@ class Dblib:
             self.con.commit()
         else:
             print("setData: Not connected to DB")
+
+    def getNumberPointsPerDay(self, date):
+        if self.connected:
+            self.cur.execute("SELECT count(Date) from dbo.Data where Date like '{0}%'".format(date))
+            count = self.cur.fetchone()[0]
+            return int(count)
+        else:
+            print("getNumberPointsPerDay: Not connected to DB")
+
+    def execsp(self, date):
+        if self.connected:
+            self.cur.execute("EXEC dbo.CalcAverage @DateAdd ='{0}'".format(date))
+        else:
+            print("execStoreProcedure: Not connected to DB")
 
 
 def saveData(date, temperature, humidity):
@@ -107,6 +119,18 @@ def saveData(date, temperature, humidity):
             return True
         else:
             return False
+
+
+def getdailyEntried(date):
+    lib = Dblib()
+    return lib.getNumberPointsPerDay(date)
+
+
+def execStoreProcedure(date):
+    lib = Dblib()
+    lib.execsp(date)
+
+
 
 
 
