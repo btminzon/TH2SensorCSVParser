@@ -10,7 +10,8 @@ def percentage(part, whole):
     return "%.2f" % percent + "%"
 
 
-with open('door.csv', 'r') as mycsv:
+with open('Door.csv', 'r') as mycsv:
+    next(mycsv) # Skip the MAC Address in the first line
     reader = csv.DictReader((x.replace('\0', '').replace('ÿþ', '') for x in mycsv), delimiter='\t')
     rowwritten = 0
     rowskipped = 0
