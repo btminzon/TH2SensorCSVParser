@@ -1,4 +1,4 @@
-import pymssql
+import pymysql
 
 ########################
 # DB: Th2Sensor
@@ -18,7 +18,7 @@ class Dblib:
 
     def __init__(self):
         try:
-            self.con = pymssql.connect(server='192.168.0.105', port=1434, timeout =20, user='dataParser',
+            self.con = pymssql.connect(server='10.0.0.12', port=1434, timeout =20, user='dataParser',
                                        password='Temsrules1', database="Th2Sensor")
             self.cur = self.con.cursor()
             self.connected = True
