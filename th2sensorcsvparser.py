@@ -23,14 +23,16 @@ if __name__ == '__main__':
             if row['Time'] not in dateList:
                 sampleParsed = row['Time'].split(' ')[0].split('-')
                 dateList.append(datetime.datetime(int(sampleParsed[0]), int(sampleParsed[1]), int(sampleParsed[2])))
-            if dblib.saveData(row['Time'], row['Temperature(C)'], row['Humidity(%RH)']):
+            ret = dblib.saveData(row['Time'], row['Temperature(C)'], row['Humidity(%RH)'])
+            if ret is True:
                 rowwritten = rowwritten + 1
-            else:
+            elif ret is False:
                 rowskipped = rowskipped + 1
-            if i + 1 == totalrows:
-                print("Writting in db. Please wait...%s" % percentage(i+1, totalrows) + " Done!")
-            else:
-                print("Writting in db. Please wait...%s" % percentage(i+1, totalrows), end='\r')
+            if ret is True or ret is False:
+                if i + 1 == totalrows:
+                    print("Writting in db. Please wait...%s" % percentage(i+1, totalrows) + " Done!")
+                else:
+                    print("Writting in db. Please wait...%s" % percentage(i+1, totalrows), end='\r')
 
         # Find the oldes date in the CSV file
         datecandidate = min(dateList).strftime("%Y-%m-%d")

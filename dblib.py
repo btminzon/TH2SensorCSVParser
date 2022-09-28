@@ -27,6 +27,9 @@ class Dblib:
             self.connected = False
             print("Failed to connect to DB: ".format(e))
 
+    def getConnectionState(self):
+        return self.connected
+
     def getDate(self, date):
         if self.connected:
             self.cur.execute("SELECT Date FROM dbo.Data WHERE Date = %s", str(date))
@@ -101,24 +104,27 @@ class Dblib:
 
 def saveData(date, temperature, humidity):
     lib = Dblib()
-    dat = lib.getDate(date)
-    if dat is None:
-        lib.setData(date, temperature, humidity)
-        return True
-    else:
-        ret = 0
-        temp = lib.getTemperature(date)
-        if temp is None:
-            lib.setTemperature(date, temperature)
-            ret = 1
-        humi = lib.getHumidity(date)
-        if humi is None:
-            lib.setHumidity(date, humidity)
-            ret = 1
-        if ret:
+    if lib.getConnectionState():
+        dat = lib.getDate(date)
+        if dat is None:
+            lib.setData(date, temperature, humidity)
             return True
         else:
-            return False
+            ret = 0
+            temp = lib.getTemperature(date)
+            if temp is None:
+                lib.setTemperature(date, temperature)
+                ret = 1
+            humi = lib.getHumidity(date)
+            if humi is None:
+                lib.setHumidity(date, humidity)
+                ret = 1
+            if ret:
+                return True
+            else:
+                return False
+    else:
+        return None
 
 
 def getdailyEntried(date):
